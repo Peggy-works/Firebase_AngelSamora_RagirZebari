@@ -64,8 +64,6 @@ class SignupFragment : Fragment() {
             Log.d("SignupFragment", "Confirm password: $confirmPassword")
 
             if(password.equals(confirmPassword)){
-                Toast.makeText(context, "Password equals confirm password", Toast.LENGTH_SHORT).show()
-
                 //Populate map
                 val user = buildMap<String, Any> {
                     put("Name", name)

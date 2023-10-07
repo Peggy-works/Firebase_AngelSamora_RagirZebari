@@ -2,6 +2,7 @@ package com.example.firebase_angelsamora_ragirzebari
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,16 +57,25 @@ class LoginFragment : Fragment() {
             val email = root.findViewById<EditText>(R.id.loginEmail).text.toString()
             val password = root.findViewById<EditText>(R.id.loginPassword).text.toString()
 
+            Log.d("Name", "$name")
+            Log.d("Email", "$email")
+            Log.d("Password", "$password")
+
             //Compound queries
-            db.collection("user")
-                .whereEqualTo("name", name)
-                .whereEqualTo("email", email)
-                .whereEqualTo("password", password)
+            db.collection("users")
+                .whereEqualTo("Name", name)
+                .whereEqualTo("Email", email)
+                .whereEqualTo("Password", password)
                 .get()
-                .addOnSuccessListener {
-                    Toast.makeText(context, "Login Successful!", Toast.LENGTH_LONG).show()
-                    val intent = Intent(context, SuccessActivity::class.java)
-                    startActivity(intent)
+                .addOnSuccessListener {task ->
+                    if(task.isEmpty){
+                        Toast.makeText(context, "Login Failed!", Toast.LENGTH_LONG).show()
+                    } else {
+                        //Login successful!
+                        Toast.makeText(context, "Login Successful!", Toast.LENGTH_LONG).show()
+                        val intent = Intent(context, SuccessActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
                 .addOnFailureListener {
                     Toast.makeText(context, "Login Failed!", Toast.LENGTH_LONG).show()
